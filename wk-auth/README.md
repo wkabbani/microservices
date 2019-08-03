@@ -6,7 +6,7 @@ The service checks the user's credentials and generates a JWT token containing s
 
 This service is mostly called by the front-end service, on behalf of the user, to get the JWT token, the token is then used as a Bearer token when making requests to the other services.
 
-# How to use
+## How to use
 
 This service uses multi-stage build feature in docker, so you don't need to have go installed on your machine to build it or run it.
 
@@ -54,7 +54,7 @@ curl --header "Content-Type: application/json" \
 5. Generate swagger definitions for the API
 6. Adapt the code to a more structured way (check [Simple Go Microservice Template](https://github.com/wkabbani/golang-samples/tree/master/go-microservice))
 
-# Codebase Structure
+## Codebase Structure
 
 ```
 
