@@ -1,0 +1,6 @@
+textblob==0.15.0
+Flask==1.0.2
+flask-restplus==0.12.1
+Flask-Testing==0.7.1
+jsonschema==2.6.0
+Werkzeug==0.14.1
