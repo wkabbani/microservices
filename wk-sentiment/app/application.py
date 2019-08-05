@@ -19,7 +19,7 @@ def configure_app(flask_app, config):
 def initialize_app(flask_app):
     """Initializes the application."""
 
-    blueprint = Blueprint('api', __name__, url_prefix='/api')
+    blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
     api.init_app(blueprint)
     api.add_namespace(sentiment_namespace)
     api.add_namespace(health_namespace)
