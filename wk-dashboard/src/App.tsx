@@ -1,19 +1,32 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
-import SignIn from "./features/SignIn/SignIn";
-import SignUp from "./features/SignUp/SignUp";
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import indigo from "@material-ui/core/colors/indigo";
+
+import { Provider } from "react-redux";
+
+import NavBar from "./features/Navigation/NavBar";
+import store from "./redux/store";
 
 import "./App.css";
 
+const theme = createMuiTheme({
+  palette: {
+    primary: indigo
+  }
+});
+
 const App: React.FC = () => {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/signin" component={SignIn} />
-        <Route exact path="/signup" component={SignUp} />
-      </Switch>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <MuiThemeProvider theme={theme}>
+          <NavBar />
+        </MuiThemeProvider>
+      </Router>
+    </Provider>
   );
 };
 
