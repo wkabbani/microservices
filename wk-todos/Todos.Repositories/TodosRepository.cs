@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Todos.Core;
 
@@ -7,60 +7,55 @@ namespace Todos.Repositories
 {
     public class TodosRepository : ITodosRepository
     {
-        public Task<TodoItem> CreateTodo(TodoItem todoItem)
+        private readonly TodoContext _context;
+
+        public TodosRepository(TodoContext context)
         {
-            return Task.FromResult(new TodoItem
+            this._context = context;
+        }
+
+        public async Task CreateTodoAsync(TodoItem todoItem)
+        {
+            _context.TodoItems.Add(todoItem);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> DeleteTodoAsync(int id)
+        {
+            var entity = await _context.TodoItems.FindAsync(id);
+            if (entity == null)
             {
-                Id = todoItem.Id,
-                Description = todoItem.Description,
-                IsDone = todoItem.IsDone,
-            });
+                return await Task.FromResult(false);
+            }
+            _context.TodoItems.Remove(entity);
+            await _context.SaveChangesAsync();
+            return await Task.FromResult(true);
         }
 
-        public Task<bool> DeleteTodo(int id)
+        public async Task<TodoItem> GetTodoAsync(int id)
         {
-            return Task.FromResult(true);
+            return await _context.TodoItems.FindAsync(id);
         }
 
-        public Task<TodoItem> GetTodo(int id)
+        public async Task<IEnumerable<TodoItem>> GetTodosAsync()
         {
-            return Task.FromResult(new TodoItem
+            return await this._context.TodoItems.ToListAsync();
+        }
+
+        public async Task<bool> UpdateTodoAsync(TodoItem todoItem)
+        {
+            var entity = await _context.TodoItems.FindAsync(todoItem.Id);
+            if (entity == null)
             {
-                Id = id,
-                Description = "description",
-                IsDone = false,
-            });
-        }
+                return await Task.FromResult(false);
+            }
 
-        public Task<IEnumerable<TodoItem>> GetTodos()
-        {
-            var list = new List<TodoItem>{
-                new TodoItem
-                {
-                    Id = 1,
-                    Description = "description",
-                    IsDone = false,
-                },
-                new TodoItem
-                {
-                    Id = 2,
-                    Description = "description",
-                    IsDone = false,
-                },
-                new TodoItem
-                {
-                    Id = 3,
-                    Description = "description",
-                    IsDone = false,
-                },
-            };
+            entity.Description = todoItem.Description;
+            entity.IsDone = todoItem.IsDone;
+            _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
-            return Task.FromResult(list as IEnumerable<TodoItem>);
-        }
-
-        public Task<bool> UpdateTodo(TodoItem todoItem)
-        {
-            return Task.FromResult(true);
+            return await Task.FromResult(true);
         }
     }
 }

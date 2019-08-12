@@ -23,7 +23,7 @@ namespace Todos.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoItem>>> Get()
         {
-            var result = await this._todosService.GetTodos();
+            var result = await this._todosService.GetTodosAsync();
             return result.ToList();
         }
 
@@ -31,7 +31,7 @@ namespace Todos.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TodoItem>> Get(int id)
         {
-            var todoItem = await this._todosService.GetTodo(id);
+            var todoItem = await this._todosService.GetTodoAsync(id);
 
             if (todoItem == null)
             {
@@ -45,8 +45,8 @@ namespace Todos.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<TodoItem>> Post([FromBody] TodoItem todoItem)
         {
-            var result = await this._todosService.CreateTodo(todoItem);
-            return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
+            await this._todosService.CreateTodoAsync(todoItem);
+            return CreatedAtAction(nameof(Get), new { id = todoItem.Id }, todoItem);
         }
 
         // PUT api/todos/5
@@ -58,8 +58,7 @@ namespace Todos.Api.Controllers
                 return BadRequest();
             }
 
-            var success = await this._todosService.UpdateTodo(todoItem);
-
+            var success = await this._todosService.UpdateTodoAsync(todoItem);
             if (success)
             {
                 return NoContent();
@@ -74,15 +73,13 @@ namespace Todos.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var todoItem = await _todosService.GetTodo(id);
-
+            var todoItem = await _todosService.GetTodoAsync(id);
             if (todoItem == null)
             {
                 return NotFound();
             }
 
-            var success = await _todosService.DeleteTodo(id);
-
+            var success = await _todosService.DeleteTodoAsync(id);
             if (success)
             {
                 return NoContent();

@@ -15,29 +15,29 @@ namespace Todos.Services
             this._todosRepository = todosRepository;
         }
 
-        public Task<TodoItem> CreateTodo(TodoItem todoItem)
+        public Task CreateTodoAsync(TodoItem todoItem)
         {
-            return _todosRepository.CreateTodo(todoItem);
+            return _todosRepository.CreateTodoAsync(todoItem);
         }
 
-        public Task<bool> DeleteTodo(int id)
+        public Task<bool> DeleteTodoAsync(int id)
         {
-            return _todosRepository.DeleteTodo(id);
+            return _todosRepository.DeleteTodoAsync(id);
         }
 
-        public Task<TodoItem> GetTodo(int id)
+        public Task<TodoItem> GetTodoAsync(int id)
         {
-            return _todosRepository.GetTodo(id);
+            return _todosRepository.GetTodoAsync(id);
         }
 
-        public Task<IEnumerable<TodoItem>> GetTodos()
+        public Task<IEnumerable<TodoItem>> GetTodosAsync()
         {
-            return _todosRepository.GetTodos();
+            return _todosRepository.GetTodosAsync();
         }
 
-        public Task<bool> UpdateTodo(TodoItem todoItem)
+        public Task<bool> UpdateTodoAsync(TodoItem todoItem)
         {
-            return _todosRepository.UpdateTodo(todoItem);
+            return _todosRepository.UpdateTodoAsync(todoItem);
         }
     }
 }

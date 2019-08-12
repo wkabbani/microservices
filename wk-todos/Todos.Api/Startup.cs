@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Todos.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Todos.Services;
 
 namespace Todos.Api
@@ -28,8 +22,14 @@ namespace Todos.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            // register services
             services.AddScoped<ITodosService, TodosService>();
             services.AddScoped<ITodosRepository, TodosRepository>();
+
+            // register EF
+            services.AddEntityFrameworkNpgsql().AddDbContext<TodoContext>(opt =>
+            opt.UseNpgsql(Configuration.GetConnectionString("TodosDbConnStr")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
