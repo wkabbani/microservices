@@ -8,7 +8,7 @@ using Todos.Services;
 
 namespace Todos.Api.Controllers
 {
-    [Route("api/todos")]
+    [Route("api/v1/todos")]
     [ApiController]
     public class TodosController : ControllerBase
     {
