@@ -11,9 +11,11 @@ namespace Cognitive.Api.Controllers
     public class TTSController : ControllerBase
     {
         private readonly ITextToSpeechTaskService _textToSpeechTaskService;
+        private readonly ITextToSpeechService _textToSpeechService;
 
-        public TTSController(ITextToSpeechTaskService textToSpeechTaskService)
+        public TTSController(ITextToSpeechTaskService textToSpeechTaskService, ITextToSpeechService textToSpeechService)
         {
+            this._textToSpeechService = textToSpeechService;
             this._textToSpeechTaskService = textToSpeechTaskService;
         }
 
@@ -64,6 +66,17 @@ namespace Cognitive.Api.Controllers
             {
                 NotFound();
             }
+            return Ok(result);
+        }
+
+
+        [HttpGet("test/{text}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult> Test(string text)
+        {
+            var result = await _textToSpeechService.TextToSpeechAsync(text);
             return Ok(result);
         }
     }

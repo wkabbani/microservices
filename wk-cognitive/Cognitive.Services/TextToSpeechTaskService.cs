@@ -3,16 +3,19 @@ using System.Threading.Tasks;
 using Cognitive.Core.Enums;
 using Cognitive.Core.Interfaces;
 using Cognitive.Core.Models;
+using Hangfire;
 
 namespace Cognitive.Services
 {
     public class TextToSpeechTaskService : ITextToSpeechTaskService
     {
         private readonly ITTSTasksRepository _ttsTasksRepository;
+        private readonly IBackgroundJobClient _backgroundJobClient;
 
-        public TextToSpeechTaskService(ITTSTasksRepository ttsTasksRepository)
+        public TextToSpeechTaskService(ITTSTasksRepository ttsTasksRepository, IBackgroundJobClient backgroundJobClient)
         {
             this._ttsTasksRepository = ttsTasksRepository;
+            this._backgroundJobClient = backgroundJobClient;
         }
 
         public async Task<TTSTask> SubmitTaskAsync(TTSRequest ttsRequest)
@@ -23,7 +26,11 @@ namespace Cognitive.Services
                 Status = Status.Submitted,
                 Text = ttsRequest.Text,
             };
-            return await _ttsTasksRepository.AddTTSTaskAsync(ttsTask);
+            var savedTask = await _ttsTasksRepository.AddTTSTaskAsync(ttsTask);
+
+            _backgroundJobClient.Enqueue<ITTSTaskProcessor>(t => t.Process(savedTask));
+
+            return savedTask;
         }
 
         public async Task StartTaskAsync(Guid id)
