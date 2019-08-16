@@ -55,9 +55,10 @@ export default class BlogRepository {
   async updateBlog(id: string, title: string, text: string): Promise<Blog> {
     try {
       const conditions = { blogId: id };
+      const query = { $set: { title, text } };
       const options = { new: true };
       const result = await this.blog
-        .findOneAndUpdate(conditions, {}, options)
+        .findOneAndUpdate(conditions, query, options)
         .exec();
       return result;
     } catch (exception) {

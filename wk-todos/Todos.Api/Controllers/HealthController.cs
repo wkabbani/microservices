@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Todos.Api.Controllers
 {
-    [Route("api/v1")]
+    [Route("system")]
     [ApiController]
     public class HealthController : ControllerBase
     {

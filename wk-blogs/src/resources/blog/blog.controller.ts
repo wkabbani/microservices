@@ -29,7 +29,7 @@ import BlogModel from './models/blog.model';
 import CreateBlogDto from './models/createBlogDto';
 import UpdateBlogDto from './models/updateBlogDto';
 
-@Controller('blogs')
+@Controller('api/v1/blogs')
 export class BlogsController {
   constructor(private readonly blogService: BlogService) {}
 
