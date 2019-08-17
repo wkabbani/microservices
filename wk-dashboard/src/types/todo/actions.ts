@@ -5,7 +5,8 @@ export enum TodoActionTypes {
   ADD_TODO = "ADD_TODO",
   EDIT_TODO = "EDIT_TODO",
   REMOVE_TODO = "REMOVE_TODO",
-  TOGGLE_TODO = "TOGGLE_TODO"
+  TOGGLE_TODO = "TOGGLE_TODO",
+  SET_TODOS = "SET_TODOS"
 }
 
 // 2. Define return types of todo actions
@@ -29,9 +30,15 @@ export interface AddTodoAction {
   todo: Todo;
 }
 
+export interface SetTodosAction {
+  type: TodoActionTypes.SET_TODOS;
+  todos: Todo[];
+}
+
 // 3. Define Aggregate todo actions
 export type TodoAction =
   | ToggleTodoAction
   | EditTodoAction
   | RemoveTodoAction
-  | AddTodoAction;
+  | AddTodoAction
+  | SetTodosAction;

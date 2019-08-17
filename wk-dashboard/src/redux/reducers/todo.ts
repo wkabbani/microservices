@@ -17,6 +17,8 @@ export const reducer = (
   action: TodoAction
 ): State => {
   switch (action.type) {
+    case TodoActionTypes.SET_TODOS:
+      return { ...state, todos: action.todos };
     case TodoActionTypes.ADD_TODO:
       return { ...state, todos: [...state.todos, action.todo] };
     case TodoActionTypes.REMOVE_TODO:

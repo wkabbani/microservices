@@ -6,13 +6,15 @@ import {
   startAddingTodo,
   startEditingTodo,
   startRemovingTodo,
-  startTogglingTodo
+  startTogglingTodo,
+  startSettingTodos
 } from "../../redux/actions/todo";
 import { Todo } from "../../types/todo/bar";
 import { AppState } from "../../redux/reducers/index";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../../types/app/actions";
 import { bindActionCreators } from "redux";
+import { getTodos } from "../../redux/selectors/todos";
 
 interface TodoPageProps {}
 
@@ -21,6 +23,10 @@ interface TodoPageState {}
 type Props = TodoPageProps & LinkStateProps & LinkDispatchProps;
 
 class TodoPage extends Component<Props, TodoPageState> {
+  componentDidMount() {
+    this.props.startSettingTodos();
+  }
+
   render() {
     return (
       <div>
@@ -44,13 +50,14 @@ interface LinkDispatchProps {
   startRemovingTodo: (id: number) => void;
   startEditingTodo: (todo: Todo) => void;
   startTogglingTodo: (todo: Todo) => void;
+  startSettingTodos: () => void;
 }
 
 const mapStateToProps = (
   state: AppState,
   ownProps: TodoPageProps
 ): LinkStateProps => ({
-  todos: state.todos.todos
+  todos: getTodos(state)
 });
 
 const mapDispatchToProps = (
@@ -60,7 +67,8 @@ const mapDispatchToProps = (
   startAddingTodo: bindActionCreators(startAddingTodo, dispatch),
   startRemovingTodo: bindActionCreators(startRemovingTodo, dispatch),
   startEditingTodo: bindActionCreators(startEditingTodo, dispatch),
-  startTogglingTodo: bindActionCreators(startTogglingTodo, dispatch)
+  startTogglingTodo: bindActionCreators(startTogglingTodo, dispatch),
+  startSettingTodos: bindActionCreators(startSettingTodos, dispatch)
 });
 
 export default connect(

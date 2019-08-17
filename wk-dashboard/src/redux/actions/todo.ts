@@ -4,17 +4,19 @@ import {
   AddTodoAction,
   RemoveTodoAction,
   EditTodoAction,
-  ToggleTodoAction
+  ToggleTodoAction,
+  SetTodosAction
 } from "../../types/todo/actions";
 import { Dispatch } from "redux";
 import { AppState } from "../reducers/index";
 import { AppAction } from "../../types/app/actions";
+import axios from "axios";
 
 /*
  * In order to automatically generate id for our todos
  */
 
-let nextId = 0;
+let nextId = 1;
 
 // action creators
 export const addTodo = (todo: Todo): AddTodoAction => ({
@@ -37,6 +39,11 @@ export const toggleTodo = (todo: Todo): ToggleTodoAction => ({
   todo
 });
 
+export const setTodos = (todos: Todo[]): SetTodosAction => ({
+  type: TodoActionTypes.SET_TODOS,
+  todos
+});
+
 export const startAddingTodo = (description: string) => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
     const newTodo = {
@@ -44,25 +51,56 @@ export const startAddingTodo = (description: string) => {
       description: description,
       isDone: false
     };
-    dispatch(addTodo(newTodo));
+    axios
+      .post("http://localhost:8080/api/v1/todos", newTodo)
+      .then(response => {
+        dispatch(addTodo(newTodo));
+      })
+      .catch(error => console.log(error));
   };
 };
 
 export const startRemovingTodo = (id: number) => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
-    dispatch(removeTodo(id));
+    axios
+      .delete(`http://localhost:8080/api/v1/todos/${id}`)
+      .then(response => {
+        dispatch(removeTodo(id));
+      })
+      .catch(error => console.log(error));
   };
 };
 
 export const startEditingTodo = (todo: Todo) => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
-    dispatch(editTodo(todo));
+    axios
+      .put(`http://localhost:8080/api/v1/todos/${todo.id}`, todo)
+      .then(response => {
+        dispatch(editTodo(todo));
+      })
+      .catch(error => console.log(error));
   };
 };
 
 export const startTogglingTodo = (todo: Todo) => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
     const toggledTodo = { ...todo, isDone: !todo.isDone };
-    dispatch(toggleTodo(toggledTodo));
+    axios
+      .put(`http://localhost:8080/api/v1/todos/${todo.id}`, toggledTodo)
+      .then(response => {
+        dispatch(toggleTodo(toggledTodo));
+      })
+      .catch(error => console.log(error));
+  };
+};
+
+export const startSettingTodos = () => {
+  return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
+    axios
+      .get("http://localhost:8080/api/v1/todos")
+      .then(response => {
+        dispatch(setTodos(response.data));
+      })
+      .catch(error => console.log(error));
   };
 };
