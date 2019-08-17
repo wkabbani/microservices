@@ -1,5 +1,6 @@
 import os
 from flask import Flask, Blueprint
+from flask_cors import CORS
 from main.api.sentiment.controller import ns as sentiment_namespace
 from main.api.health.controller import hns as health_namespace
 from main.api.health.controller import rns as readiness_namespace
@@ -32,6 +33,9 @@ def create_app(config):
 
     # create the app
     app = Flask(__name__)
+
+    # configure cors
+    CORS(app)
 
     # configure the app
     configure_app(app, config)

@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import * as fromTodo from "./todo";
 import * as fromBlog from "./blog";
+import * as fromSentiment from "./sentiment";
 
 /*
  * This is the root state of the app
@@ -9,6 +10,7 @@ import * as fromBlog from "./blog";
 export interface AppState {
   todos: fromTodo.State;
   blogs: fromBlog.State;
+  sentiment: fromSentiment.State;
 }
 
 /*
@@ -16,7 +18,8 @@ export interface AppState {
  */
 export const initialState: AppState = {
   todos: fromTodo.initialState,
-  blogs: fromBlog.initialState
+  blogs: fromBlog.initialState,
+  sentiment: fromSentiment.initialState
 };
 
 /*
@@ -25,5 +28,6 @@ export const initialState: AppState = {
  */
 export const rootReducer = combineReducers<AppState>({
   todos: fromTodo.reducer,
-  blogs: fromBlog.reducer
+  blogs: fromBlog.reducer,
+  sentiment: fromSentiment.reducer
 });

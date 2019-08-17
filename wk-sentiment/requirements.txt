@@ -4,3 +4,4 @@ flask-restplus==0.12.1
 Flask-Testing==0.7.1
 jsonschema==2.6.0
 Werkzeug==0.14.1
+flask-cors==3.0.8
