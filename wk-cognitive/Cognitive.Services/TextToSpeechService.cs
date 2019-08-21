@@ -18,6 +18,7 @@ namespace Cognitive.Services
         public async Task<byte[]> TextToSpeechAsync(string text)
         {
             var grpcServerAddress = $"{this._serviceSettings.GrpcServerHost}:{this._serviceSettings.GrpcServerPort}";
+            Console.WriteLine($"Connecting to grpc server on {grpcServerAddress}");
             Channel channel = new Channel(grpcServerAddress, ChannelCredentials.Insecure);
             var client = new Tts.TextToSpeech.TextToSpeechClient(channel);
 

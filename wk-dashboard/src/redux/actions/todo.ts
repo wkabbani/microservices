@@ -52,7 +52,7 @@ export const startAddingTodo = (description: string) => {
       isDone: false
     };
     axios
-      .post("http://localhost:8080/api/v1/todos", newTodo)
+      .post("http://wk-todos-svc:8080/api/v1/todos", newTodo)
       .then(response => {
         dispatch(addTodo(newTodo));
       })
@@ -63,7 +63,7 @@ export const startAddingTodo = (description: string) => {
 export const startRemovingTodo = (id: number) => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
     axios
-      .delete(`http://localhost:8080/api/v1/todos/${id}`)
+      .delete(`http://wk-todos-svc:8080/api/v1/todos/${id}`)
       .then(response => {
         dispatch(removeTodo(id));
       })
@@ -74,7 +74,7 @@ export const startRemovingTodo = (id: number) => {
 export const startEditingTodo = (todo: Todo) => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
     axios
-      .put(`http://localhost:8080/api/v1/todos/${todo.id}`, todo)
+      .put(`http://wk-todos-svc:8080/api/v1/todos/${todo.id}`, todo)
       .then(response => {
         dispatch(editTodo(todo));
       })
@@ -86,7 +86,7 @@ export const startTogglingTodo = (todo: Todo) => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
     const toggledTodo = { ...todo, isDone: !todo.isDone };
     axios
-      .put(`http://localhost:8080/api/v1/todos/${todo.id}`, toggledTodo)
+      .put(`http://wk-todos-svc:8080/api/v1/todos/${todo.id}`, toggledTodo)
       .then(response => {
         dispatch(toggleTodo(toggledTodo));
       })

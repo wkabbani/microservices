@@ -68,16 +68,5 @@ namespace Cognitive.Api.Controllers
             }
             return Ok(result);
         }
-
-
-        [HttpGet("test/{text}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
-        public async Task<ActionResult> Test(string text)
-        {
-            var result = await _textToSpeechService.TextToSpeechAsync(text);
-            return Ok(result);
-        }
     }
 }

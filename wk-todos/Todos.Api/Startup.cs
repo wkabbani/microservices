@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Todos.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Todos.Services;
+using System;
 
 namespace Todos.Api
 {
@@ -37,6 +38,7 @@ namespace Todos.Api
             services.AddScoped<ITodosRepository, TodosRepository>();
 
             // register EF
+            Console.WriteLine(Configuration.GetConnectionString("TodosDbConnStr"));
             services.AddEntityFrameworkNpgsql().AddDbContext<TodoContext>(opt =>
             opt.UseNpgsql(Configuration.GetConnectionString("TodosDbConnStr")));
         }
