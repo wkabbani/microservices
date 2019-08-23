@@ -14,7 +14,7 @@ def main():
     app = create_app(config)
 
     # run the app
-    app.run(host=config.FLASK_SERVER_NAME)
+    app.run(host=config.FLASK_SERVER_NAME, port=config.FLASK_SERVER_PORT)
 
 
 if __name__ == "__main__":
