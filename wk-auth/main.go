@@ -35,8 +35,8 @@ func main() {
 
 	// setup health server
 	hmux := http.NewServeMux()
-	hmux.HandleFunc("/api/v1/health", healthHandler)
-	hmux.HandleFunc("/api/v1/readiness", readinessHandler)
+	hmux.HandleFunc("/health", healthHandler)
+	hmux.HandleFunc("/readiness", readinessHandler)
 	healthServer := manners.NewServer()
 	healthServer.Addr = *healthAddr
 	healthServer.Handler = loggingHandler(hmux)
