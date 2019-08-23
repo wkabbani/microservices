@@ -3,18 +3,18 @@ version: "3.1"
 services:
   mongo-db:
     image: mongo
+    networks:
+      - wk-net
     restart: always
-    ports:
-      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
   wk-blog-svc:
     build: ./wk-blogs
+    networks:
+      - wk-net
     links:
       - mongo-db
-    ports:
-      - "8080:8080"
     depends_on:
       - mongo-db
     environment:
@@ -23,23 +23,22 @@ services:
       MONGODB_PASSWORD: example
   wk-auth-svc:
     build: ./wk-auth
-    ports:
-      - "10090:8080"
-      - "10091:8081"
+    networks:
+      - wk-net
   wk-sentiment-svc:
     build: ./wk-sentiment
-    ports:
-      - "10050:5000"
+    networks:
+      - wk-net
   wk-tts-svc:
     build: ./wk-tts
-    ports:
-      - "10060:8080"
+    networks:
+      - wk-net
   wk-cognitive-svc:
     build: ./wk-cognitive
+    networks:
+      - wk-net
     links:
       - wk-tts-svc
-    ports:
-      - "10070:8080"
     depends_on:
       - wk-tts-svc
     environment:
@@ -47,24 +46,35 @@ services:
       ServiceSettings__GrpcServerPort: 8080
   postgres-db:
     image: postgres
+    networks:
+      - wk-net
     restart: always
-    ports:
-      - "5432"
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
   wk-todos-svc:
     build: ./wk-todos
+    networks:
+      - wk-net
     links:
       - postgres-db
-    ports:
-      - "10100:8080"
     depends_on:
       - postgres-db
     environment:
       ConnectionStrings__TodosDbConnStr: Host=postgres-db;Port=5432;Database=postgres;Username=postgres;Password=password
   wk-dashboard:
     build: ./wk-dashboard
+    networks:
+      - wk-net
+    links:
+      - wk-blog-svc
+      - wk-auth-svc
+      - wk-sentiment-svc
+      - wk-cognitive-svc
+      - wk-todos-svc
     ports:
-      - "80:80"
+      - "8080:80"
+networks:
+  wk-net:
+    driver: bridge

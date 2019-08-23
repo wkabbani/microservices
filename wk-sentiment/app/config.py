@@ -2,7 +2,7 @@ class Config:
 
     # Flask configurations
     FLASK_SERVER_NAME = '0.0.0.0'
-    FLASK_SERVER_PORT = '5000'
+    FLASK_SERVER_PORT = '80'
     FLASK_DEBUG = False
 
     # Flask-Restplus configurations

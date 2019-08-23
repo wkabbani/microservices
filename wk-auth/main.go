@@ -14,8 +14,8 @@ import (
 
 func main() {
 	var (
-		httpAddr   = flag.String("http", "0.0.0.0:8080", "HTTP service address.")
-		healthAddr = flag.String("health", "0.0.0.0:8081", "Health service address.")
+		httpAddr   = flag.String("http", "0.0.0.0:80", "HTTP service address.")
+		healthAddr = flag.String("health", "0.0.0.0:81", "Health service address.")
 	)
 	flag.Parse()
 

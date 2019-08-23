@@ -22,5 +22,5 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2.6 AS runtime
 WORKDIR /app
 COPY --from=build /app/Cognitive.Api/out ./
-EXPOSE 8080
+EXPOSE 80
 ENTRYPOINT ["dotnet", "Cognitive.Api.dll"]

@@ -16,7 +16,7 @@ FROM alpine:3.10
 WORKDIR /
 COPY --from=build-env /staging/wk-auth /
 
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 80
+EXPOSE 81
 
 CMD [ "/wk-auth" ]

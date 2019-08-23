@@ -9,7 +9,7 @@ COPY . .
 RUN npm install
 RUN npm run build
 
-EXPOSE 8080
+EXPOSE 80
 
 ENTRYPOINT [ "npm" ]
 CMD ["run", "start:prod"]
