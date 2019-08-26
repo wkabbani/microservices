@@ -1,14 +1,58 @@
 version: "3.1"
 
+###########
+# Services
+###########
 services:
+  ###########
+  # Mongo DB
+  ###########
   mongo-db:
     image: mongo
     networks:
       - wk-net
+    volumes:
+      - "mongodata:/data/db"
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+  ###########
+  # Postgres DB
+  ###########
+  postgres-db:
+    image: postgres
+    networks:
+      - wk-net
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+  ###########
+  # Auth Service
+  ###########
+  wk-auth-svc:
+    build: ./wk-auth
+    networks:
+      - wk-net
+  ###########
+  # Sentiment Service
+  ###########
+  wk-sentiment-svc:
+    build: ./wk-sentiment
+    networks:
+      - wk-net
+  ###########
+  # Text-to-Speech Service
+  ###########
+  wk-tts-svc:
+    build: ./wk-tts
+    networks:
+      - wk-net
+  ###########
+  # Blog Service
+  ###########
   wk-blog-svc:
     build: ./wk-blogs
     networks:
@@ -21,18 +65,9 @@ services:
       MONGODB_SERVER: mongodb://mongo-db:27017/
       MONGODB_USERNAME: root
       MONGODB_PASSWORD: example
-  wk-auth-svc:
-    build: ./wk-auth
-    networks:
-      - wk-net
-  wk-sentiment-svc:
-    build: ./wk-sentiment
-    networks:
-      - wk-net
-  wk-tts-svc:
-    build: ./wk-tts
-    networks:
-      - wk-net
+  ###########
+  # Cognitive Service
+  ###########
   wk-cognitive-svc:
     build: ./wk-cognitive
     networks:
@@ -44,15 +79,9 @@ services:
     environment:
       ServiceSettings__GrpcServerHost: wk-tts-svc
       ServiceSettings__GrpcServerPort: 8080
-  postgres-db:
-    image: postgres
-    networks:
-      - wk-net
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
+  ###########
+  # Todos Service
+  ###########
   wk-todos-svc:
     build: ./wk-todos
     networks:
@@ -63,7 +92,10 @@ services:
       - postgres-db
     environment:
       ConnectionStrings__TodosDbConnStr: Host=postgres-db;Port=5432;Database=postgres;Username=postgres;Password=password
-  wk-dashboard:
+  ###########
+  # Dashboard Service (Front-end)
+  ###########
+  wk-dashboard-svc:
     build: ./wk-dashboard
     networks:
       - wk-net
@@ -75,6 +107,10 @@ services:
       - wk-todos-svc
     ports:
       - "8080:80"
+
+###########
+# Networks
+###########
 networks:
   wk-net:
     driver: bridge

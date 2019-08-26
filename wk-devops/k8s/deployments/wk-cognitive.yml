@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: wk-cognitive-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wk-cognitive
+    spec:
+      containers:
+        - name: wk-cognitive
+          image: wka4docker/wk-cognitive
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80

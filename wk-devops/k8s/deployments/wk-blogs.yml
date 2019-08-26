@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: wk-blogs-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wk-blogs
+    spec:
+      containers:
+        - name: wk-blogs
+          image: wka4docker/wk-blogs
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80

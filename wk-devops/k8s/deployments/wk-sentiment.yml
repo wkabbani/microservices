@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: wk-sentiment-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wk-sentiment
+    spec:
+      containers:
+        - name: wk-sentiment
+          image: wka4docker/wk-sentiment
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80

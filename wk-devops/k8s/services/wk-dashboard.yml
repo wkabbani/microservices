@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wk-dashboard-svc
+spec:
+  type: LoadBalancer
+  selector:
+    tagName: wk-dashboard
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
