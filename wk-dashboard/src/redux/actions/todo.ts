@@ -52,7 +52,7 @@ export const startAddingTodo = (description: string) => {
       isDone: false
     };
     axios
-      .post("http://wk-todos-svc/api/v1/todos", newTodo)
+      .post(`${process.env.REACT_APP_TODO_SVC_URL}/api/v1/todos`, newTodo)
       .then(response => {
         dispatch(addTodo(newTodo));
       })
@@ -63,7 +63,7 @@ export const startAddingTodo = (description: string) => {
 export const startRemovingTodo = (id: number) => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
     axios
-      .delete(`http://wk-todos-svc/api/v1/todos/${id}`)
+      .delete(`${process.env.REACT_APP_TODO_SVC_URL}/api/v1/todos/${id}`)
       .then(response => {
         dispatch(removeTodo(id));
       })
@@ -74,7 +74,10 @@ export const startRemovingTodo = (id: number) => {
 export const startEditingTodo = (todo: Todo) => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
     axios
-      .put(`http://wk-todos-svc/api/v1/todos/${todo.id}`, todo)
+      .put(
+        `${process.env.REACT_APP_TODO_SVC_URL}/api/v1/todos/${todo.id}`,
+        todo
+      )
       .then(response => {
         dispatch(editTodo(todo));
       })
@@ -86,7 +89,10 @@ export const startTogglingTodo = (todo: Todo) => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
     const toggledTodo = { ...todo, isDone: !todo.isDone };
     axios
-      .put(`http://wk-todos-svc/api/v1/todos/${todo.id}`, toggledTodo)
+      .put(
+        `${process.env.REACT_APP_TODO_SVC_URL}/api/v1/todos/${todo.id}`,
+        toggledTodo
+      )
       .then(response => {
         dispatch(toggleTodo(toggledTodo));
       })
@@ -97,7 +103,7 @@ export const startTogglingTodo = (todo: Todo) => {
 export const startSettingTodos = () => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
     axios
-      .get("http://wk-todos-svc/api/v1/todos")
+      .get(`${process.env.REACT_APP_TODO_SVC_URL}/api/v1/todos`)
       .then(response => {
         dispatch(setTodos(response.data));
       })

@@ -35,7 +35,7 @@ export const setBlogs = (blogs: Blog[]): SetBlogsAction => ({
 export const startAddingBlog = (blog: Blog) => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
     axios
-      .post("http://wk-blog-svc/api/v1/blogs", blog)
+      .post(`${process.env.REACT_APP_BLOG_SVC_URL}/api/v1/blogs`, blog)
       .then(response => {
         dispatch(addBlog(response.data));
       })
@@ -46,7 +46,7 @@ export const startAddingBlog = (blog: Blog) => {
 export const startRemovingBlog = (id: string) => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
     axios
-      .delete(`http://wk-blog-svc/api/v1/blogs/${id}`)
+      .delete(`${process.env.REACT_APP_BLOG_SVC_URL}/api/v1/blogs/${id}`)
       .then(response => {
         dispatch(removeBlog(id));
       })
@@ -57,7 +57,10 @@ export const startRemovingBlog = (id: string) => {
 export const startEditingBlog = (blog: Blog) => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
     axios
-      .put(`http://wk-blog-svc/api/v1/blogs/${blog.blogId}`, blog)
+      .put(
+        `${process.env.REACT_APP_BLOG_SVC_URL}/api/v1/blogs/${blog.blogId}`,
+        blog
+      )
       .then(response => {
         dispatch(editBlog(blog));
       })
@@ -68,7 +71,7 @@ export const startEditingBlog = (blog: Blog) => {
 export const startSettingBlogs = () => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
     axios
-      .get("http://wk-blog-svc/api/v1/blogs")
+      .get(`${process.env.REACT_APP_BLOG_SVC_URL}/api/v1/blogs`)
       .then(response => {
         dispatch(setBlogs(response.data));
       })

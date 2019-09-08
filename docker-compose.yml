@@ -34,6 +34,8 @@ services:
   ###########
   wk-auth-svc:
     build: ./wk-auth
+    ports:
+      - "10084:80"
     networks:
       - wk-net
   ###########
@@ -41,6 +43,8 @@ services:
   ###########
   wk-sentiment-svc:
     build: ./wk-sentiment
+    ports:
+      - "10083:80"
     networks:
       - wk-net
   ###########
@@ -55,6 +59,8 @@ services:
   ###########
   wk-blog-svc:
     build: ./wk-blogs
+    ports:
+      - "10082:80"
     networks:
       - wk-net
     links:
@@ -70,6 +76,8 @@ services:
   ###########
   wk-cognitive-svc:
     build: ./wk-cognitive
+    ports:
+      - "10081:80"
     networks:
       - wk-net
     links:
@@ -84,6 +92,8 @@ services:
   ###########
   wk-todos-svc:
     build: ./wk-todos
+    ports:
+      - "10080:80"
     networks:
       - wk-net
     links:
@@ -114,3 +124,9 @@ services:
 networks:
   wk-net:
     driver: bridge
+
+###########
+# Volumes
+###########
+volumes:
+  mongodata:

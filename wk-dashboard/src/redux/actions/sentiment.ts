@@ -20,7 +20,10 @@ export const startSettingSentiment = (sentence: string) => {
       sentence: sentence
     };
     axios
-      .post("http://wk-sentiment-svc/api/v1/sentiment", request)
+      .post(
+        `${process.env.REACT_APP_SENTIMENT_SVC_URL}/api/v1/sentiment`,
+        request
+      )
       .then(response => {
         dispatch(setSentiment(response.data));
       })
