@@ -4,7 +4,7 @@ A project that showcases one way to build a microservices solution.
 
 ## Disclaimer
 
-The porjects is not meant to be production-ready or production-quality as there are a lot of left out todos, but the project aims to illustrate in a practical way rather theoratical way, a set of common patterns found in simple, practical, real-world microsrevice solutions.
+The porject is not meant to be production-ready or production-quality as there are a lot of left out todos, but the project aims to illustrate in a practical way rather theoratical way, a set of common patterns found in simple, practical, real-world microsrevice solutions.
 
 ## Overview of the patterns
 
